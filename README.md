@@ -36,24 +36,6 @@ The model can classify **only these 5 sports personalities**:
 - **HTML & CSS**
 - **Render (Deployment)**
 
-
-## Project Structure
-
-sports_personality_classifier/
-├── app.py
-├── requirements.txt
-├── model/
-│ ├── lbph_model.xml
-│ └── label_map.pkl
-├── templates/
-│ └── index.html
-├── static/
-│ └── style.css
-├── screenshots/
-│ └── app_ui.png
-└── README.md
-
-
 ## Model Used
 - **Algorithm:** Local Binary Pattern Histogram (LBPH)
 - Fast and effective for small face datasets
