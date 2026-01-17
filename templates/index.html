@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Personality Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="card">
+    <h1>Sports Personality</h1>
+    <p>Upload an image to identify the athlete</p>
+
+    <!-- Upload -->
+    <label class="label-upload" id="uploadLabel">
+        Click to upload image
+        <input type="file" id="file" accept="image/*" onchange="previewImage(event)">
+    </label>
+
+    <!-- Preview -->
+    <div class="preview" id="preview"></div>
+
+    <!-- Predict -->
+    <button onclick="predict()">Predict</button>
+
+    <div class="result" id="result"></div>
+    <div class="confidence" id="confidence"></div>
+</div>
+
+<script>
+function previewImage(event) {
+    const preview = document.getElementById("preview");
+    const uploadLabel = document.getElementById("uploadLabel");
+
+    preview.innerHTML = "";
+
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    preview.appendChild(img);
+
+    // 👇 hide upload button after image selected
+    uploadLabel.style.display = "none";
+}
+
+function predict() {
+    const fileInput = document.getElementById("file");
+
+    if (!fileInput.files.length) {
+        alert("Please upload an image first");
+        return;
+    }
+
+    const data = new FormData();
+    data.append("image", fileInput.files[0]);
+
+    document.getElementById("result").innerText = "Predicting...";
+    document.getElementById("confidence").innerText = "";
+
+    fetch("/predict", {
+        method: "POST",
+        body: data
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            document.getElementById("result").innerText = data.error;
+        } else {
+            document.getElementById("result").innerText =
+                "Prediction: " + data.prediction;
+            document.getElementById("confidence").innerText =
+                "Confidence: " + data.confidence;
+        }
+    })
+    .catch(() => {
+        document.getElementById("result").innerText = "Server error";
+    });
+}
+</script>
+
+</body>
+</html>
