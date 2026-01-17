@@ -1,4 +1,5 @@
 flask
-opencv-contrib-python-headless
-numpy
 gunicorn
+numpy
+joblib
+opencv-contrib-python-headless
