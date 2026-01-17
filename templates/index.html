@@ -7,77 +7,68 @@
 </head>
 <body>
 
-<div class="card">
-    <h1>Sports Personality</h1>
-    <p>Upload an image to identify the athlete</p>
+<div class="wrapper">
 
-    <!-- Upload -->
-    <label class="label-upload" id="uploadLabel">
-        Click to upload image
-        <input type="file" id="file" accept="image/*" onchange="previewImage(event)">
-    </label>
+    <!-- NOTE -->
+    <div class="card note">
+        <h3>⚠ Important Note</h3>
+        <p>This model can classify images of <b>only these 5 sports personalities</b>:</p>
+        <ul>
+            <li>Virat Kohli</li>
+            <li>Lionel Messi</li>
+            <li>Roger Federer</li>
+            <li>Serena Williams</li>
+            <li>Maria Sharapova</li>
+        </ul>
+        <p class="small">To upload another image, please refresh the page.</p>
+    </div>
 
-    <!-- Preview -->
-    <div class="preview" id="preview"></div>
+    <!-- UPLOAD -->
+    <div class="card upload">
+        <h3>Upload Image</h3>
 
-    <!-- Predict -->
-    <button onclick="predict()">Predict</button>
+        <form id="form">
+            <input type="file" id="image" accept="image/*" required>
+            <button type="submit">Predict</button>
+        </form>
 
-    <div class="result" id="result"></div>
-    <div class="confidence" id="confidence"></div>
+        <img id="preview" class="hidden">
+    </div>
+
+    <!-- RESULT -->
+    <div class="card result">
+        <h3>Result</h3>
+        <div id="output">No prediction yet</div>
+    </div>
+
 </div>
 
 <script>
-function previewImage(event) {
-    const preview = document.getElementById("preview");
-    const uploadLabel = document.getElementById("uploadLabel");
+const imageInput = document.getElementById("image");
+const preview = document.getElementById("preview");
+const output = document.getElementById("output");
 
-    preview.innerHTML = "";
+imageInput.onchange = () => {
+    preview.src = URL.createObjectURL(imageInput.files[0]);
+    preview.classList.remove("hidden");
+};
 
-    const file = event.target.files[0];
-    if (!file) return;
+document.getElementById("form").onsubmit = async (e) => {
+    e.preventDefault();
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
-    preview.appendChild(img);
+    const fd = new FormData();
+    fd.append("image", imageInput.files[0]);
 
-    // 👇 hide upload button after image selected
-    uploadLabel.style.display = "none";
-}
+    output.innerText = "Predicting...";
 
-function predict() {
-    const fileInput = document.getElementById("file");
-
-    if (!fileInput.files.length) {
-        alert("Please upload an image first");
-        return;
-    }
-
-    const data = new FormData();
-    data.append("image", fileInput.files[0]);
-
-    document.getElementById("result").innerText = "Predicting...";
-    document.getElementById("confidence").innerText = "";
-
-    fetch("/predict", {
+    const res = await fetch("/predict", {
         method: "POST",
-        body: data
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.error) {
-            document.getElementById("result").innerText = data.error;
-        } else {
-            document.getElementById("result").innerText =
-                "Prediction: " + data.prediction;
-            document.getElementById("confidence").innerText =
-                "Confidence: " + data.confidence;
-        }
-    })
-    .catch(() => {
-        document.getElementById("result").innerText = "Server error";
+        body: fd
     });
-}
+
+    const data = await res.json();
+    output.innerHTML = `<b>${data.prediction}`;
+};
 </script>
 
 </body>

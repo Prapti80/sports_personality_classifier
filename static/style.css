@@ -1,84 +1,91 @@
 * {
-    margin: 0;
-    padding: 0;
     box-sizing: border-box;
     font-family: "Segoe UI", sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #1d2671, #c33764);
+    margin: 0;
+    background: linear-gradient(120deg, #4b3fa7, #7a5cff);
     min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+.wrapper {
+    width: 1200px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 25px;
 }
 
 .card {
-    background: white;
-    width: 380px;
-    padding: 30px;
+    background: #ffffff;
+    padding: 25px;
     border-radius: 16px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.note ul {
+    padding-left: 18px;
+}
+
+.note li {
+    margin-bottom: 6px;
+}
+
+.small {
+    font-size: 13px;
+    color: #555;
+}
+
+.upload input {
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.upload button {
+    width: 100%;
+    padding: 10px;
+    background: #4b3fa7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.upload button:hover {
+    background: #372f88;
+}
+
+#preview {
+    margin-top: 15px;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.result #output {
+    background: #eef0ff;
+    padding: 20px;
+    border-radius: 10px;
     text-align: center;
+    font-size: 18px;
 }
 
-.card h1 {
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.card p {
-    font-size: 14px;
-    color: #777;
-    margin-bottom: 20px;
-}
-
-input[type="file"] {
+.hidden {
     display: none;
 }
 
-.label-upload {
-    border: 2px dashed #aaa;
-    padding: 20px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    transition: 0.3s;
-}
-
-.label-upload:hover {
-    background: #f5f5f5;
-}
-
-.preview img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 15px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #1d2671;
-    border: none;
-    color: white;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #c33764;
-}
-
-.result {
-    margin-top: 15px;
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.confidence {
-    font-size: 14px;
-    color: #555;
+/* Responsive */
+@media (max-width: 1100px) {
+    .wrapper {
+        grid-template-columns: 1fr;
+        width: 90%;
+    }
 }
