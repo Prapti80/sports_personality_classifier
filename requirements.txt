@@ -1,6 +1,4 @@
 flask
-opencv-python-headless
-scikit-learn
-scikit-image
-joblib
+opencv-contrib-python-headless
 numpy
+gunicorn
