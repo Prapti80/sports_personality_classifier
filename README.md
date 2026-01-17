@@ -16,7 +16,7 @@ Users can:
 - Detect the face
 - Predict the sports personality
 - View the result instantly
-- 
+
 ## Supported Personalities
 The model can classify **only these 5 sports personalities**:
 - Virat Kohli  
